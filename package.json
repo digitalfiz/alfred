@@ -25,6 +25,7 @@
     "eslint-plugin-import": "^2.2.0",
     "express": "^4.14.0",
     "google-cloud": "^0.45.2",
+    "jest": "^18.1.0",
     "nest-api": "^0.0.7",
     "node-record-lpcm16": "^0.2.0",
     "request": "^2.79.0",
