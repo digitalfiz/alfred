@@ -7,12 +7,9 @@ import { getTemperature, setTemperature } from '../nest';
 
 // @todo this will be a database eventually?
 const ADMINS = {
-  facebook: [
-    '1217409711674257'
-  ],
   hangouts: [
-    'mseiler@gmail.com',
-    'digitalangel143@gmail.com'
+    'my@email.com',
+    'another.family.member@email.com'
   ]
 };
 
@@ -73,16 +70,6 @@ export const apiaiHandler = (req, res) => {
     if (feels === 'cold') {
       return answerApi(res, 'Turning the thermostat up a few degrees');
     }
-  }
-
-  if (action === 'int_log_action') {
-    console.log('writing test file: int_log.json');
-    var stream = fs.createWriteStream('/home/pi/alfred/int_log.json');
-    return stream.once('open', () => {
-      stream.write(JSON.stringify(json, null, 2));
-      stream.end();
-      return answerApi(res, 'wrote test file: int_test.json');
-    });
   }
 
   if (action === 'get_house_temp') {
