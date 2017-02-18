@@ -31,7 +31,17 @@ sonus.on('error', (err) => {
 sonus.on('final-result', (text) => {
   if (text.length > 0) {
     logMessage('   You: ' + text.cap(), colors.FgMagenta);
-    callApiAi(text, (res) => {
+
+    const context = {
+      name: 'location',
+      parameters: {
+        'location': 'Parent\'s Room'
+      }
+    };
+
+    const call = callApiAi(text, { contexts: [ context ] });
+
+    call.on('done', (res) => {
       logMessage('Alfred: ' + res.fulfillment.speech, colors.FgBlue);
       if (res.action == 'input.unknown') {
         playResource('error');

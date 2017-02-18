@@ -1,17 +1,25 @@
-const apiai = require('apiai');
+import apiai  from 'apiai';
+import EventEmitter from 'events';
+
 const app = apiai(process.env.APIAI_TOKEN);
 
-export const callApiAi = (text, callback) => {
-  var request = app.textRequest(text.trim(), {
+export const callApiAi = (text, settings) => {
+  const emitter = new EventEmitter();
+
+  settings = Object.assign({
     sessionId: 'lololololololol'
-  });
+  }, settings);
+
+  const request = app.textRequest(text.trim(), settings);
+
   request.on('response', function(response) {
-    // syncSpeech(response.result.fulfillment.speech);
-    callback(response.result);
+    emitter.emit('done', response.result);
   });
 
   request.on('error', function(error) {
-    console.log(error);
+    emitter.emit('error', error);
   });
   request.end();
+
+  return emitter;
 };

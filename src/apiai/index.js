@@ -53,6 +53,23 @@ export const apiaiHandler = (req, res) => {
 
   console.log(JSON.stringify(json.result, null, '  '));
 
+  if (action == 'input_location') {
+    let location = null;
+
+    for (let context in json.result.contexts) {
+      if (context.name === 'location') {
+        location = context.parameters.location;
+      }
+    }
+    
+    if (location) {
+      return answerApi(res, `The location of the device you are using is '${location}'.`);
+    } else {
+      return answerApi(res, 'I am sorry the device you are using didn\'t provide a location.');
+    }
+
+  }
+
   if (action === 'input.unknown') {
     return console.log('json', json);
   }
