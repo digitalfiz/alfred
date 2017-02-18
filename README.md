@@ -32,7 +32,7 @@ yarn install
 
 To run the hotword detection with voice response (basically the alexa,assistant part) run:
 ```sh
-GOOGLE_CLOUD_PROJECT_ID=someproject GOOGLE_CLOUD_EMAIL=my@email.com GOOGLE_CLOUD_SECRETS_FILE=/path/to/secrets/file APIAI_TOKEN=sometoken node listen.js
+GOOGLE_CLOUD_PROJECT_ID=someproject GOOGLE_CLOUD_EMAIL=my@email.com GOOGLE_CLOUD_SECRETS_FILE=/path/to/secrets/file APIAI_TOKEN=sometoken DEVICE_LOCATION=somelocation node listen.js
 ```
 
 To run the hangouts bot, for chatting with the bot on hangouts:
