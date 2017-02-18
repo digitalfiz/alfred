@@ -35,7 +35,7 @@ sonus.on('final-result', (text) => {
     const context = {
       name: 'location',
       parameters: {
-        'location': 'Parent\'s Room'
+        'location': process.env.DEVICE_LOCATION
       }
     };
 
