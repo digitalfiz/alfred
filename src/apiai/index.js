@@ -56,12 +56,12 @@ export const apiaiHandler = (req, res) => {
   if (action == 'input_location') {
     let location = null;
 
-    for (let context in json.result.contexts) {
+    for (let context of json.result.contexts) {
       if (context.name === 'location') {
         location = context.parameters.location;
       }
     }
-    
+
     if (location) {
       return answerApi(res, `The location of the device you are using is '${location}'.`);
     } else {
