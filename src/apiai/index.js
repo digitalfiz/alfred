@@ -51,6 +51,7 @@ export const apiaiHandler = (req, res) => {
   const action = json.result.action;
   let text = '';
 
+  console.log(JSON.stringify(json.result, null, '  '));
 
   if (action === 'input.unknown') {
     return console.log('json', json);
