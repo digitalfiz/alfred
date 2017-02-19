@@ -1,5 +1,5 @@
 import { syncSpeech, playResource } from './speak';
-import { callApiAi } from './apiai/client';
+import { makeTextRequest, setContext } from './apiai/client';
 import Sonus from 'sonus';
 import colors from './colors';
 import { tts } from './google';
@@ -7,6 +7,19 @@ import { tts } from './google';
 const logMessage = (message, color) => {
   console.log(color, message, colors.Reset);
 };
+
+var d = new Date();
+var unixtime = d.getTime();
+const SESSION_ID = new Buffer(`${unixtime}-${process.env.DEVICE_LOCATION}`).toString('base64');
+
+const context = {
+  name: 'input_location',
+  parameters: {
+    'location': process.env.DEVICE_LOCATION
+  }
+};
+setContext([ context ], { sessionId: SESSION_ID });
+
 
 String.prototype.cap = function() {
   return this.charAt(0).toUpperCase() + this.slice(1);
@@ -32,14 +45,7 @@ sonus.on('final-result', (text) => {
   if (text.length > 0) {
     logMessage('   You: ' + text.cap(), colors.FgMagenta);
 
-    const context = {
-      name: 'location',
-      parameters: {
-        'location': process.env.DEVICE_LOCATION
-      }
-    };
-
-    const call = callApiAi(text, { contexts: [ context ] });
+    const call = makeTextRequest(text, { sessionId: SESSION_ID });
 
     call.on('done', (res) => {
       logMessage('Alfred: ' + res.fulfillment.speech, colors.FgBlue);
