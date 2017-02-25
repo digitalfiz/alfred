@@ -13,7 +13,7 @@ var unixtime = d.getTime();
 const SESSION_ID = new Buffer(`${unixtime}-${process.env.DEVICE_LOCATION}`).toString('base64');
 
 const context = {
-  name: 'input_location',
+  name: 'location',
   parameters: {
     'location': process.env.DEVICE_LOCATION
   }
@@ -45,15 +45,16 @@ sonus.on('final-result', (text) => {
   if (text.length > 0) {
     logMessage('   You: ' + text.cap(), colors.FgMagenta);
 
-    const call = makeTextRequest(text, { sessionId: SESSION_ID });
+    const call = makeTextRequest(text, { sessionId: SESSION_ID, contexts: [ context ] });
 
     call.on('done', (res) => {
-      logMessage('Alfred: ' + res.fulfillment.speech, colors.FgBlue);
-      if (res.action == 'input.unknown') {
+      if (res.action == 'input.unknown' || res.fulfillment.speech.length === 0) {
+        logMessage('Alfred: Bad response from API.ai ', colors.FgRed);
         playResource('error');
       } else if (res.action == 'red_alert') {
         playResource('automaticdefenseproceduresinitiated');
       } else {
+        logMessage('Alfred: ' + res.fulfillment.speech, colors.FgBlue);
         syncSpeech(res.fulfillment.speech);
       }
     });

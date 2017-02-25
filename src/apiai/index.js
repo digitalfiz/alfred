@@ -78,6 +78,19 @@ export const apiaiHandler = (req, res) => {
     return answerApi(res, json.result.parameters.phrase);
   }
 
+  if (action === 'toggle_lights') {
+    let power = json.result.parameters.power;
+    let location = json.result.parameters.location;
+
+    if (power === 'on') {
+      return answerApi(res, `Turning the lights ${power} in ${location}`);
+    }
+
+    if (power === 'off') {
+      return answerApi(res, `Turning the lights ${power} in ${location}`);
+    }
+  }
+
   if (action === 'adjust_temperature') {
     let feels = json.result.parameters.feels;
 
