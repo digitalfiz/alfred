@@ -1,5 +1,6 @@
 cache
 node_modules
+npm-debug.log
 run.sh
 secrets.json
 coverage
